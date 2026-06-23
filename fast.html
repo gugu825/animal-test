@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 测测你的动物塑是什么？</title>
+    <style>
+        /* CSS 样式：负责网页的皮肤和布局 */
+        :root {
+            --primary-color: #6366f1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h1 { color: #1e293b; font-size: 28px; margin-bottom: 10px; }
+        p.subtitle { color: #64748b; margin-bottom: 30px; }
+
+        /* 统一按钮样式 */
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            font-weight: bold;
+        }
+        .btn:hover { transform: scale(1.05); background-color: #4f46e5; }
+
+        /* 选项按钮特别样式 */
+        .option-btn {
+            display: block;
+            width: 100%;
+            background-color: #f1f5f9;
+            color: #334155;
+            text-align: left;
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background-color: #e2e8f0;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* 进度条 */
+        .progress-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* 隐藏不用的页面 */
+        .hidden { display: none !important; }
+
+        /* 结果页特殊美化 */
+        .result-title { font-size: 32px; color: var(--primary-color); margin: 20px 0; font-weight: bold; }
+        .result-quote { font-style: italic; color: #64748b; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .result-desc { text-align: left; line-height: 1.8; color: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="start-page">
+            <div style="font-size: 60px; margin-bottom: 20px;">🔮</div>
+            <h1>测测你的动物塑是什么？</h1>
+            <p class="subtitle">10道情境题，精准解锁你在朋友眼中的社交动物人设</p>
+            <button class="btn" onclick="startQuiz()">开始探索</button>
+        </div>
+
+        <div id="quiz-page" class="hidden">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <h2 id="question-text" style="font-size: 22px; margin-bottom: 30px; text-align: left;">题目加载中...</h2>
+            <div id="options-container">
+                </div>
+        </div>
+
+        <div id="result-page" class="hidden">
+            <div style="font-size: 60px;" id="result-emoji">🐾</div>
+            <div id="result-name" class="result-title">动物塑名称</div>
+            <div id="result-quote" class="result-quote">“金句文案”</div>
+            <div id="result-desc" class="result-desc">详细描述...</div>
+            <button class="btn" style="margin-top: 30px;" onclick="restartQuiz()">再测一次</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. 题库数据（10道题，每题4个选项，分数分别对应 1, 2, 3, 4）
+        const questions = [
+            {
+                q: "1. 早上闹钟响了，你的第一反应通常是？",
+                options: [
+                    { text: "优雅地关掉，在床上伸个懒腰，再躺10分钟", score: 1 },
+                    { text: "瞬间惊醒，甚至比闹钟还早起，充满干劲", score: 2 },
+                    { text: "毫无波澜地按掉，机械化起床，心率都不带变一下的", score: 3 },
+                    { text: "脑子飞速运转，开始计算如果再睡5分钟该怎么极限压缩时间", score: 4 }
+                ]
+            },
+            {
+                q: "2. 走进一家新开的超有氛围感的咖啡厅，你会坐哪？",
+                options: [
+                    { text: "最角落、最隐蔽、最好能有帘子挡住的位置", score: 1 },
+                    { text: "哪里热闹坐哪里，最好能跟隔壁桌或者店员搭上两句话", score: 2 },
+                    { text: "随便哪都行，哪怕座位旁边在装修拆墙，也能安然坐下", score: 3 },
+                    { text: "离店员和门口最近、视野最好的地方，方便观察环境", score: 4 }
+                ]
+            },
+            {
+                q: "3. 好朋友突然在微信上给你发：“在吗？有个大八卦！”，你却正在忙：",
+                options: [
+                    { text: "视而不见，等自己忙完了、心情好了再回", score: 1 },
+                    { text: "“速发！！”立刻放下手头的事，疯狂敲碗等前线战报", score: 2 },
+                    { text: "淡淡地回一句“在”，然后继续慢条斯理地做自己的事", score: 3 },
+                    { text: "挑了挑眉，回一个“？”或“说”，内心开始盘算各种可能性", score: 4 }
+                ]
+            },
+            {
+                q: "4. 小组作业/团队项目中，遇到一个疯狂划水的组员，你会？",
+                options: [
+                    { text: "瞬间对这个项目失去热情，开启“已读乱回”模式，甚至想退群", score: 1 },
+                    { text: "直接在群里艾特他：“同学，你负责的部分什么时候交？”", score: 2 },
+                    { text: "算了，只要不影响大局，他划水我来补，懒得内耗", score: 3 },
+                    { text: "表面客客气气，暗中收集证据，在最后汇报时给他致命一击", score: 4 }
+                ]
+            },
+            {
+                q: "5. 出门旅游时，你通常是哪种“担当”？",
+                options: [
+                    { text: "独行侠，更倾向于独自或者只带一个最默契的人去小众探店", score: 1 },
+                    { text: "气氛组兼特种兵，负责疯狂拍照活跃气氛，每天走两万步", score: 2 },
+                    { text: "随缘大师，不看攻略不带脑，到了地方“去哪都行，吃啥都好”", score: 3 },
+                    { text: "军师担当，Excel精确到分钟，订最划算机酒，规避所有雷区", score: 4 }
+                ]
+            },
+            {
+                q: "6. 你在社交平台上刷到一条非常赞同、甚至击中内心的观点，你会？",
+                options: [
+                    { text: "默默点个赞/收藏，甚至连赞都不点，内心：懂的都懂", score: 1 },
+                    { text: "疯狂长评，激动地在评论区寻找同频的搭子，或转发给所有朋友", score: 2 },
+                    { text: "滑过去，心里毫无波澜地想：“嗯，说得挺好。”", score: 3 },
+                    { text: "顺手存进自己的知识库，顺便看看高赞评论里有没有可借鉴的", score: 4 }
+                ]
+            },
+            {
+                q: "7. 如果用一个词来形容你面对“DDL（截止日期）”时的精神状态：",
+                options: [
+                    { text: "毁灭吧。越催越不想做，甚至想干脆消失在人间", score: 1 },
+                    { text: "焦虑前行。一边碎碎念一边疯狂赶进度，绝对不拖到最后", score: 2 },
+                    { text: "摆烂式稳定。天塌下来也有个子高的顶着，急有什么用", score: 3 },
+                    { text: "精准卡点。靠智商和直觉在最后一秒完成绝杀", score: 4 }
+                ]
+            },
+            {
+                q: "8. 走在路上，突然有陌生人向你强烈推销课程，你会？",
+                options: [
+                    { text: "战术性戴上耳机，假装没听见快速走开", score: 1 },
+                    { text: "因为不好意思拒绝，结结巴巴地听对方说很久，甚至可能真买了", score: 2 },
+                    { text: "接过传单说句谢谢，面无表情继续走，看到垃圾桶再扔掉", score: 3 },
+                    { text: "微笑听完，用极为礼貌且毫无漏洞的借口（如没钱）优雅拒绝", score: 4 }
+                ]
+            },
+            {
+                q: "9. 当你在某个专业领域被别人公开质疑或者挑刺时：",
+                options: [
+                    { text: "冷笑一声不屑反驳，直接用最终的完美成果啪啪打对方的脸", score: 1 },
+                    { text: "瞬间被激起胜负欲，列举一二三四条铁证，非要跟对方辩明白", score: 2 },
+                    { text: "表面微笑点头：“啊对对对，你说的都对。”内心：这人有事吗", score: 3 },
+                    { text: "迅速找出对方逻辑漏洞，用最温柔的语气说出最扎心的话", score: 4 }
+                ]
+            },
+            {
+                q: "10. 结束了极其疲惫的一周，周五晚上你最想怎么过？",
+                options: [
+                    { text: "洗个热水澡，关掉所有灯，在黑暗中静静地刷手机或者看剧", score: 1 },
+                    { text: "必须吃顿好的！最好能叫上两三个搭子一起去吃火锅/烧烤发泄", score: 2 },
+                    { text: "躺在床上放空，什么也不想，任由时间流逝", score: 3 },
+                    { text: "独处但不停歇，可能会看一本有深度的小说或复盘一下这周", score: 4 }
+                ]
+            }
+        ];
+
+        // 2. 结果数据矩阵
+        const results = {
+            cat: {
+                emoji: "🐱",
+                name: "边界感拉满的 傲娇猫咪塑",
+                quote: "“人类离我远点，但你，可以过来一下。”",
+                desc: "<b>性格画像：</b>极其注重个人空间和边界感。你的精神状态就像猫咪，高冷、独立，有自己一套独特的运行逻辑。不喜欢无效社交，看似对什么都淡淡的，其实内心戏极其丰富。<br><br><b>💡 高光时刻：</b>极强的专注力，绝不随波逐流，独处时能爆发出惊人的创造力。<br><br><b>🤝 同频搭子：</b>小狗塑（正好能融化你的冰山）。"
+            },
+            dog: {
+                emoji: "🐶",
+                name: "自带小太阳的 直球小狗塑",
+                quote: "“今天也是元气满满、努力营业的一天！”",
+                desc: "<b>性格画像：</b>不管内心积累了多少疲惫，你表现出来的永远是热情、真诚和靠谱。你喜欢给身边的人提供情绪价值，待人真诚没有套路。虽然偶尔也会感到累，但只要看到朋友的肯定，就会瞬间“尾巴摇飞”。<br><br><b>💡 高光时刻：</b>超强的执行力和团队凝聚力，大家有困难第一个就想找你。<br><br><b>🤝 同频搭子：</b>猫咪塑（你可以治愈他的高冷）。"
+            },
+            capybara: {
+                emoji: "🥔",
+                name: "精神内核领先地球20年的 水豚塑",
+                quote: "“天塌下来，就当被子盖吧。”",
+                desc: "<b>性格画像：</b>你是当代互联网的佛系天花板，卡皮巴拉本巴。你拥有极强的钝感力和稳定的精神内核，很少有什么事情能让你真正抓狂或焦虑。生活对你来说不是战场，而是一个巨大的温泉，泡就完事了。<br><br><b>💡 高光时刻：</b>全网最强抗压能力，在大家都兵荒马乱的时候，你依然能稳如泰山。<br><br><b>🤝 同频搭子：</b>所有人（毕竟谁能拒绝一只情绪稳定的卡皮巴拉呢）。"
+            },
+            fox: {
+                emoji: "🦊",
+                name: "智商与审美并存的 优雅狐狸塑",
+                quote: "“看看局势，但我懒得说破。”",
+                desc: "<b>性格画像：</b>你非常聪明、敏锐，洞察力惊人。在社交场合，你是个“伪装成阳光小狗的智商派”，能够轻易看穿别人的心思和局势的走向。你追求精致和高效，做任何事都有清晰的规划和极高的审美品味。<br><br><b>💡 高光时刻：</b>谈判、规划、卡点绝杀，你总是能在复杂的环境里拿到最优解。<br><br><b>🤝 同频搭子：</b>水豚塑（他的稳定能让你紧绷的脑子放松下来）。"
+            }
+        };
+
+        // 3. 运行状态变量
+        let currentQuestionIndex = 0;
+        let totalScore = 0;
+
+        // 4. 控制函数
+        function startQuiz() {
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // 更新进度条
+            const progressPercent = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // 显示题目文本
+            document.getElementById('question-text').innerText = currentQuestion.q;
+
+            // 清空并重新生成选项按钮
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.innerText = option.text;
+                // 点击选项时触发
+                button.onclick = () => handleAnswer(option.score);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function handleAnswer(score) {
+            totalScore += score;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+
+            let finalResult;
+            // 分数判定区间
+            if (totalScore >= 10 && totalScore <= 17) {
+                finalResult = results.cat;
+            } else if (totalScore >= 18 && totalScore <= 25) {
+                finalResult = results.dog;
+            } else if (totalScore >= 26 && totalScore <= 33) {
+                finalResult = results.capybara;
+            } else {
+                finalResult = results.fox;
+            }
+
+            // 把结果渲染到网页上
+            document.getElementById('result-emoji').innerText = finalResult.emoji;
+            document.getElementById('result-name').innerText = finalResult.name;
+            document.getElementById('result-quote').innerText = finalResult.quote;
+            document.getElementById('result-desc').innerHTML = finalResult.desc;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            totalScore = 0;
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('start-page').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
