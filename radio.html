@@ -37,7 +37,7 @@
         /* 10轨双列网格布局 */
         .mixer-grid { 
             display: grid; grid-template-columns: 1fr 1fr; gap: 12px; 
-            text-align: left; margin-bottom: 25px; max-height: 300px; overflow-y: auto; padding-right: 4px;
+            text-align: left; margin-bottom: 25px; max-height: 260px; overflow-y: auto; padding-right: 4px;
         }
         /* 美化滚动条 */
         .mixer-grid::-webkit-scrollbar { width: 4px; }
@@ -83,3 +83,149 @@
     </div>
 
     <div class="mixer-grid">
+        <!-- 10轨道，全面修复闭合标签与国内CDN音源 -->
+        <div class="track">
+            <div class="track-label"><span>🎵 舒适 Lofi 乐</span><span id="v1-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol1" min="0" max="100" value="0" oninput="updateVolume(1, this.value)">
+            <audio id="audio1" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*eX2LRoasBf8AAAAAAAAAAAAADmJ7AQ/Lofi_Beat.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>⌨️ 生产力打字声</span><span id="v2-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol2" min="0" max="100" value="0" oninput="updateVolume(2, this.value)">
+            <audio id="audio2" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*mB06RLuM_N8AAAAAAAAAAAAADmJ7AQ/Keyboard_Click.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>☕ 咖啡厅白噪音</span><span id="v3-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol3" min="0" max="100" value="0" oninput="updateVolume(3, this.value)">
+            <audio id="audio3" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*6Y91QbeR4SIAAAAAAAAAAAAADmJ7AQ/Cafe_Ambience.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>⏱️ 石英钟走针声</span><span id="v4-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol4" min="0" max="100" value="0" oninput="updateVolume(4, this.value)">
+            <audio id="audio4" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*gR6PRqN98wYAAAAAAAAAAAAADmJ7AQ/Clock_Ticking.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>🌧️ 窗外瓢泼大雨</span><span id="v5-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol5" min="0" max="100" value="0" oninput="updateVolume(5, this.value)">
+            <audio id="audio5" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*H7n5Q7n58bYAAAAAAAAAAAAADmJ7AQ/Heavy_Rain.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>📄 纸张翻动声</span><span id="v6-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol6" min="0" max="100" value="0" oninput="updateVolume(6, this.value)">
+            <audio id="audio6" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*V8n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Page_Turning.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>✏️ 铅笔沙沙草图声</span><span id="v7-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol7" min="0" max="100" value="0" oninput="updateVolume(7, this.value)">
+            <audio id="audio7" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*w7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Pencil_Scratch.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>🍃 夏夜微风蝉鸣</span><span id="v8-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol8" min="0" max="100" value="0" oninput="updateVolume(8, this.value)">
+            <audio id="audio8" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*X7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Summer_Cicadas.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>🔥 壁炉柴火噼啪</span><span id="v9-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol9" min="0" max="100" value="0" oninput="updateVolume(9, this.value)">
+            <audio id="audio9" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*Y7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Fireplace_Crackling.mp3"></audio>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>📻 复古车载LoFi</span><span id="v10-num" class="track-percent">0%</span></div>
+            <input type="range" id="vol10" min="0" max="100" value="0" oninput="updateVolume(10, this.value)">
+            <audio id="audio10" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*Z7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/LoFi_Radio.mp3"></audio>
+        </div>
+    </div>
+
+    <button class="gen-btn" onclick="generateDiagnosis()">生成当前精神状态图谱</button>
+
+    <div class="card" id="status-card">
+        <h3 id="status-title"></h3>
+        <p id="status-desc"></p>
+        <div id="status-tags" class="tags-container"></div>
+    </div>
+</div>
+
+<script>
+    function updateVolume(trackNum, value) {
+        document.getElementById(`v${trackNum}-num`).innerText = value + '%';
+        const audio = document.getElementById(`audio${trackNum}`);
+        if (value > 0) {
+            if (audio.paused) {
+                audio.play().catch(function(e) { console.log("互动解锁音频通道"); });
+            }
+            audio.volume = value / 100;
+        } else {
+            audio.volume = 0;
+            audio.pause();
+        }
+    }
+
+    function matchAIStatus() {
+        const text = document.getElementById('ai-text').value;
+        if (!text) { alert("你还没写下内耗遗言呢~"); return; }
+
+        for(let i=1; i<=10; i++) { 
+            document.getElementById(`vol${i}`).value = 0; 
+            updateVolume(i, 0);
+        }
+
+        if (text.match(/(急|交图|方案|完蛋|崩溃|赶图|作业|ddl|材料|评图|退回|压力|累|大)/i)) {
+            updateVolume(2, 85); document.getElementById('vol2').value = 85;
+            updateVolume(4, 90); document.getElementById('vol4').value = 90;
+            updateVolume(7, 95); document.getElementById('vol7').value = 95;
+        } else if (text.match(/(夏天|假|放假|毕业|校园|草坪|阳光|风|摸鱼)/)) {
+            updateVolume(1, 75); document.getElementById('vol1').value = 75;
+            updateVolume(8, 90); document.getElementById('vol8').value = 90;
+            updateVolume(10, 40); document.getElementById('vol10').value = 40;
+        } else if (text.match(/(孤独|深夜|冷|哭|难过|emo|寂寞|悲)/)) {
+            updateVolume(5, 80); document.getElementById('vol5').value = 80;
+            updateVolume(6, 60); document.getElementById('vol6').value = 60;
+            updateVolume(9, 85); document.getElementById('vol9').value = 85;
+        } else if (text.match(/(咖啡|工作|实习|大厂|开会|精致|星巴克)/)) {
+            updateVolume(1, 60); document.getElementById('vol1').value = 60;
+            updateVolume(2, 40); document.getElementById('vol2').value = 40;
+            updateVolume(3, 85); document.getElementById('vol3').value = 85;
+        } else {
+            updateVolume(5, 70); document.getElementById('vol5').value = 70;
+            updateVolume(6, 80); document.getElementById('vol6').value = 80;
+        }
+        generateDiagnosis();
+    }
+
+    function generateDiagnosis() {
+        const v = [];
+        for(let i=1; i<=10; i++) v[i] = parseInt(document.getElementById(`vol${i}`).value);
+
+        const card = document.getElementById('status-card');
+        const title = document.getElementById('status-title');
+        const desc = document.getElementById('status-desc');
+        const tagsBox = document.getElementById('status-tags');
+
+        card.style.display = 'block'; tagsBox.innerHTML = '';
+        let max = Math.max(...v.slice(1));
+        if (max === 0) { title.innerText = "🍃 颅内绝对真空"; desc.innerText = "四周寂静无声。"; return; }
+
+        const names = ["", "BGM", "键盘", "咖啡厅", "钟声", "大雨", "翻书", "草图", "蝉鸣", "柴火", "车载LoFi"];
+        for(let i=1; i<=10; i++) { if (v[i] > 0) tagsBox.innerHTML += `<span class="tag">#${names[i]} ${v[i]}%</span>`; }
+
+        let maxIdx = v.indexOf(max);
+        if (maxIdx === 7 || maxIdx === 2) {
+            title.innerText = "📐 方案大改 · 键盘火星子爆燃状态";
+            desc.innerText = "铅笔的疯狂沙沙声和机械键盘击键声已经把空气点燃了。你处于极高强度的脑力输出状态，你的方案可能正在经历大改，挺住！";
+        } else if (maxIdx === 8 || maxIdx === 1) {
+            title.innerText = "🌅 蝉鸣落日 · 灵魂已提前放假";
+            desc.innerText = "疏离的旋律与夏夜蝉鸣。你的肉体虽然还坐在电脑前，但灵魂已经收拾好行李放假了。";
+        } else if (maxIdx === 9 || maxIdx === 5) {
+            title.innerText = "🔥 围炉夜织 · 极度内耗自愈机制";
+            desc.innerText = "柴火噼啪，大雨倾盆。现在的你有些疲惫和emo，正在对自己进行精神修复。";
+        } else if (maxIdx === 3 || maxIdx === 10) {
+            title.innerText = "🪐 赛博中产 · 气氛组首席打工人";
+            desc.innerText = "经典咖啡厅和微弱的LoFi频率组合，哪怕人快没了，这种精致感也是你最后固守的倔强。";
+        } else {
+            title.innerText = "🧘 寂静深邃 · 沉浸式心智运转";
+            desc.innerText = "翻书声与钟声交织，外界的嘈杂被你完美过滤。";
+        }
+    }
+</script>
+</body>
+</html>
