@@ -3,228 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎧 今日精神状态 · 极简氛围电台</title>
+    <title>今日精神状态 · 声音艺术装置</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        
         body, html { 
             height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; 
-            background: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #ededed;
+            background: #000000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+            color: #ffffff; overflow: hidden; position: relative;
         }
-        
-        /* 极简雾面容器 */
+
+        /* 顶级深邃暗夜流光背景（若隐若现的呼吸环境光） */
+        body::before {
+            content: ""; position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0) 70%);
+            top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none;
+            animation: bgPulse 12s infinite ease-in-out;
+        }
+        @keyframes bgPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        /* 容器去实体化：像悬浮在黑暗中的光影艺术品 */
         .container { 
-            width: 95%; max-width: 500px; background: #121212; padding: 35px 25px; 
-            border-radius: 24px; box-shadow: 0 30px 70px rgba(0,0,0,0.8); text-align: center;
-            border: 1px solid #222222;
+            width: 90%; max-width: 440px; 
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            padding: 40px 35px; border-radius: 32px; 
+            box-shadow: 0 50px 120px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.03); 
+            text-align: center; border: 1px solid rgba(255, 255, 255, 0.02); z-index: 10; position: relative;
         }
+
+        /* 瑞士现代主义排版风格 */
+        .header-zone { margin-bottom: 35px; }
+        h1 { font-size: 15px; font-weight: 400; margin: 0 0 8px 0; color: rgba(255,255,255,0.9); letter-spacing: 6px; text-transform: uppercase; }
+        .subtitle { color: rgba(255,255,255,0.2); font-size: 8px; font-weight: 400; letter-spacing: 3px; transform: scale(0.9); }
         
-        h1 { font-size: 20px; font-weight: 600; margin: 0 0 6px 0; color: #ffffff; letter-spacing: 2px; }
-        .subtitle { color: #666666; font-size: 11px; margin-bottom: 25px; letter-spacing: 1px; }
-        
-        /* AI 输入区 - 极简白描风 */
-        .ai-input-zone { margin-bottom: 25px; background: #161616; padding: 12px; border-radius: 16px; border: 1px solid #222222; }
+        /* 纯黑无边框全景示波器屏 */
+        .visualizer-zone {
+            width: 100%; height: 100px; background: transparent;
+            margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;
+        }
+        canvas { width: 100%; height: 100%; display: block; }
+
+        /* 纯粹线条感输入区 */
+        .ai-input-zone { margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
         .ai-input-zone textarea { 
-            width: 100%; height: 50px; background: #0a0a0a; border: 1px solid #222222; 
-            border-radius: 10px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.3s;
+            width: 100%; height: 35px; background: transparent; border: none; 
+            color: #ffffff; padding: 0; font-size: 12px; resize: none; outline: none;
+            font-family: inherit; line-height: 1.6; text-align: center;
         }
-        .ai-input-zone textarea:focus { border-color: #555555; }
+        .ai-input-zone textarea::placeholder { color: rgba(255,255,255,0.15); }
+        
+        /* 留白先锋感按钮 */
         .ai-btn { 
-            width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #333333; border-radius: 8px; 
-            background: #ffffff; color: #000000; font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.2s;
+            margin-top: 15px; padding: 8px 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; 
+            background: transparent; color: rgba(255,255,255,0.7); font-weight: 400; cursor: pointer; font-size: 10px; letter-spacing: 2px;
         }
-        .ai-btn:hover { background: #e5e5e5; }
+        .ai-btn:hover { background: #ffffff; color: #000000; border-color: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
 
-        /* 10轨双列网格布局 */
-        .mixer-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; 
-            text-align: left; margin-bottom: 25px; max-height: 260px; overflow-y: auto; padding-right: 4px;
+        /* 高级定制型音轨排版 */
+        .mixer-grid { display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left; margin-bottom: 35px; }
+        .track { 
+            background: transparent; padding: 0 0 10px 0; border-bottom: 1px solid rgba(255,255,255,0.02);
         }
-        /* 美化滚动条 */
-        .mixer-grid::-webkit-scrollbar { width: 4px; }
-        .mixer-grid::-webkit-scrollbar-thumb { background: #222222; border-radius: 2px; }
+        .track:hover { border-color: rgba(255,255,255,0.1); }
+        .track-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 12px; color: rgba(255,255,255,0.3); font-weight: 300; letter-spacing: 1px; }
+        .track-percent { color: rgba(255,255,255,0.8); font-variant-numeric: tabular-nums; font-weight: 400; }
         
-        .track { background: #161616; padding: 14px 12px; border-radius: 14px; border: 1px solid #222222; }
-        .track-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 10px; color: #888888; }
-        .track-label span:first-child { color: #aaaaaa; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
-        .track-percent { color: #ffffff; font-weight: bold; text-shadow: 0 0 4px rgba(255,255,255,0.2); }
-        
-        /* 极简黑白滑块 */
-        input[type=range] { width: 100%; -webkit-appearance: none; background: #222222; height: 3px; border-radius: 2px; outline: none; }
+        /* 极致纤细的无感轨道 */
+        .slider-wrapper { position: relative; display: flex; align-items: center; }
+        input[type=range] { width: 100%; -webkit-appearance: none; background: rgba(255,255,255,0.05); height: 1px; outline: none; }
         input[type=range]::-webkit-slider-thumb { 
-            -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; 
-            background: #ffffff; cursor: pointer; border: 1px solid #000000; transition: transform 0.1s;
+            -webkit-appearance: none; width: 6px; height: 6px; border-radius: 50%; 
+            background: #ffffff; cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8); transition: transform 0.2s;
         }
-        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(2); }
 
-        /* 底部生成按钮 */
-        .gen-btn {
-            width: 100%; padding: 14px; border: 1px solid #333333; border-radius: 12px; 
-            background: transparent; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+        /* 电影谢幕感的静谧匿名流 */
+        .square-zone { width: 100%; text-align: center; margin-bottom: 35px; }
+        .square-title { font-size: 8px; color: rgba(255,255,255,0.15); font-weight: 400; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
+        .comment-pool { height: 20px; overflow: hidden; position: relative; }
+        .comment-item { 
+            font-size: 11px; color: rgba(255,255,255,0.3); width: 100%; font-weight: 300; letter-spacing: 0.5px;
+            animation: slideUpFade 6s infinite ease-in-out; position: absolute; opacity: 0;
         }
-        .gen-btn:hover { background: #ffffff; color: #000000; }
         
-        /* 诊断卡片 */
-        .card { margin-top: 20px; background: #161616; padding: 18px; border-radius: 14px; display: none; text-align: left; border: 1px dashed #333333; }
-        .card h3 { margin: 0; color: #ffffff; font-size: 15px; font-weight: 600; }
-        .card p { font-size: 12px; color: #888888; line-height: 1.6; margin: 8px 0 0 0; }
-        .tags-container { margin-top: 12px; }
-        .tag { display: inline-block; background: #0a0a0a; color: #aaaaaa; padding: 3px 8px; border-radius: 4px; font-size: 10px; margin: 2px; border: 1px solid #222222; }
+        @keyframes slideUpFade {
+            0% { transform: translateY(15px); opacity: 0; filter: blur(4px); }
+            15% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            85% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            100% { transform: translateY(-15px); opacity: 0; filter: blur(4px); }
+        }
+
+        /* 底部半透明艺术签章式按钮 */
+        .gen-btn {
+            width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.05); border-radius: 0; 
+            background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 300; cursor: pointer; letter-spacing: 3px;
+        }
+        .gen-btn:hover { background: transparent; color: #ffffff; border-color: rgba(255,255,255,0.4); }
+        
+        /* 诗意化的诊断卡片 */
+        .card { 
+            margin-top: 25px; padding: 20px 0 0 0; text-align: left; border-top: 1px dashed rgba(255,255,255,0.08);
+            display: none; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .card h3 { margin: 0; color: #ffffff; font-size: 12px; font-weight: 400; letter-spacing: 2px; }
+        .card p { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.8; margin: 10px 0 0 0; font-weight: 300; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>今日精神状态电台</h1>
-    <div class="subtitle">INPUT TEXT OR ADJUST TRACKS TO COMPOSE YOUR SOUNDS</div>
+    <div class="header-zone">
+        <h1>今日精神状态 · 算法装置</h1>
+        <div class="subtitle">WEB AUDIO WAVEFORM VISUALIZATION & TIMELESS RESONANCE BLOCK</div>
+    </div>
+
+    <!-- 视觉震撼重构：高冷冷白发光线，宛如艺术画廊顶部的冷光艺术线条 -->
+    <div class="visualizer-zone">
+        <canvas id="visualizer"></canvas>
+    </div>
 
     <div class="ai-input-zone">
-        <textarea id="ai-text" placeholder="用一句话吐槽现状（例如：方案又被退回了急 / 蝉鸣好夏天想放假 / 咖啡续命画图中...）"></textarea>
-        <button class="ai-btn" onclick="matchAIStatus()">🔮 AI 智能一键混音</button>
+        <textarea id="ai-text" placeholder="将此时此刻的心绪，汇入永恒的声音波动。"></textarea>
+        <button class="ai-btn" onclick="matchAIStatus()">注入频率</button>
     </div>
 
     <div class="mixer-grid">
-        <!-- 10轨道，全面修复闭合标签与国内CDN音源 -->
         <div class="track">
-            <div class="track-label"><span>🎵 舒适 Lofi 乐</span><span id="v1-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol1" min="0" max="100" value="0" oninput="updateVolume(1, this.value)">
-            <audio id="audio1" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*eX2LRoasBf8AAAAAAAAAAAAADmJ7AQ/Lofi_Beat.mp3"></audio>
+            <div class="track-label"><span>Mute Noise / 深度白噪音</span><span id="v1-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol1" min="0" max="100" value="0" oninput="updateVolume(1, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>⌨️ 生产力打字声</span><span id="v2-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol2" min="0" max="100" value="0" oninput="updateVolume(2, this.value)">
-            <audio id="audio2" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*mB06RLuM_N8AAAAAAAAAAAAADmJ7AQ/Keyboard_Click.mp3"></audio>
+            <div class="track-label"><span>Sub Drone / 低频低鸣</span><span id="v2-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol2" min="0" max="100" value="0" oninput="updateVolume(2, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>☕ 咖啡厅白噪音</span><span id="v3-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol3" min="0" max="100" value="0" oninput="updateVolume(3, this.value)">
-            <audio id="audio3" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*6Y91QbeR4SIAAAAAAAAAAAAADmJ7AQ/Cafe_Ambience.mp3"></audio>
+            <div class="track-label"><span>Sine Core / 纯净正弦波</span><span id="v3-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol3" min="0" max="100" value="0" oninput="updateVolume(3, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>⏱️ 石英钟走针声</span><span id="v4-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol4" min="0" max="100" value="0" oninput="updateVolume(4, this.value)">
-            <audio id="audio4" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*gR6PRqN98wYAAAAAAAAAAAAADmJ7AQ/Clock_Ticking.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>🌧️ 窗外瓢泼大雨</span><span id="v5-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol5" min="0" max="100" value="0" oninput="updateVolume(5, this.value)">
-            <audio id="audio5" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*H7n5Q7n58bYAAAAAAAAAAAAADmJ7AQ/Heavy_Rain.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>📄 纸张翻动声</span><span id="v6-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol6" min="0" max="100" value="0" oninput="updateVolume(6, this.value)">
-            <audio id="audio6" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*V8n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Page_Turning.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>✏️ 铅笔沙沙草图声</span><span id="v7-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol7" min="0" max="100" value="0" oninput="updateVolume(7, this.value)">
-            <audio id="audio7" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*w7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Pencil_Scratch.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>🍃 夏夜微风蝉鸣</span><span id="v8-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol8" min="0" max="100" value="0" oninput="updateVolume(8, this.value)">
-            <audio id="audio8" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*X7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Summer_Cicadas.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>🔥 壁炉柴火噼啪</span><span id="v9-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol9" min="0" max="100" value="0" oninput="updateVolume(9, this.value)">
-            <audio id="audio9" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*Y7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/Fireplace_Crackling.mp3"></audio>
-        </div>
-        <div class="track">
-            <div class="track-label"><span>📻 复古车载LoFi</span><span id="v10-num" class="track-percent">0%</span></div>
-            <input type="range" id="vol10" min="0" max="100" value="0" oninput="updateVolume(10, this.value)">
-            <audio id="audio10" loop src="https://mdn.alipayobjects.com/huamei_7u98qz/afts/file/A*Z7n_S6v7X30AAAAAAAAAAAAADmJ7AQ/LoFi_Radio.mp3"></audio>
+            <div class="track-label"><span>Alpha Wave / 阿尔法波</span><span id="v4-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol4" min="0" max="100" value="0" oninput="updateVolume(4, this.value)"></div>
         </div>
     </div>
 
-    <button class="gen-btn" onclick="generateDiagnosis()">生成当前精神状态图谱</button>
+    <div class="square-zone">
+        <div class="square-title">RESONANCE / 他人的频段</div>
+        <div class="comment-pool" id="comment-pool"></div>
+    </div>
+
+    <button class="gen-btn" onclick="generateDiagnosis()">生成状态图谱</button>
 
     <div class="card" id="status-card">
         <h3 id="status-title"></h3>
         <p id="status-desc"></p>
-        <div id="status-tags" class="tags-container"></div>
     </div>
 </div>
 
 <script>
+    let audioCtx = null; let nodes = {1:null,2:null,3:null,4:null}; let gains = {1:null,2:null,3:null,4:null};
+    let analyser = null; let canvas, canvasCtx;
+
+    const mockDatabase = [
+        "来自午夜的匿名波段：机械键盘快按碎了，方案依然没过。",
+        "某处的共鸣频率：只想去没有人的荒野，静静地躺一下下午。",
+        "走廊尽头的重音：推开办公室门的那一刻，夜风好冷。",
+        "深海节点的低吟：在低频洪流中，暂时交出抵抗权。"
+    ];
+
+    function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser(); analyser.fftSize = 512; analyser.connect(audioCtx.destination);
+
+        let bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) { output[i] = Math.random() * 2 - 1; }
+        let whiteNoise = audioCtx.createBufferSource(); whiteNoise.buffer = noiseBuffer; whiteNoise.loop = true;
+        gains[1] = audioCtx.createGain(); gains[1].gain.value = 0; whiteNoise.connect(gains[1]); gains[1].connect(analyser); whiteNoise.start(); nodes[1] = whiteNoise;
+
+        let osc2 = audioCtx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 55;
+        let filter2 = audioCtx.createBiquadFilter(); filter2.type = 'lowpass'; filter2.frequency.value = 100;
+        gains[2] = audioCtx.createGain(); gains[2].gain.value = 0; osc2.connect(filter2); filter2.connect(gains[2]); gains[2].connect(analyser); osc2.start(); nodes[2] = osc2;
+
+        let osc3 = audioCtx.createOscillator(); osc3.type = 'sine'; osc3.frequency.value = 360;
+        gains[3] = audioCtx.createGain(); gains[3].gain.value = 0; osc3.connect(gains[3]); gains[3].connect(analyser); osc3.start(); nodes[3] = osc3;
+
+        let osc4 = audioCtx.createOscillator(); osc4.type = 'triangle'; osc4.frequency.value = 70;
+        let filter4 = audioCtx.createBiquadFilter(); filter4.type = 'lowpass'; filter4.frequency.value = 85;
+        gains[4] = audioCtx.createGain(); gains[4].gain.value = 0; osc4.connect(filter4); filter4.connect(gains[4]); gains[4].connect(analyser); osc4.start(); nodes[4] = osc4;
+
+        drawVisualizer();
+    }
+
+    // 极致艺术画布算法：清空背景、极致丝滑的发光纤细白线
+    function drawVisualizer() {
+        requestAnimationFrame(drawVisualizer);
+        if (!analyser) return;
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        analyser.getByteTimeDomainData(dataArray);
+
+        // 清空画布，保持绝对干净的无边框通透质感
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        canvasCtx.lineWidth = 1;
+        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.8)'; // 高级冷白线
+        canvasCtx.shadowBlur = 4;
+        canvasCtx.shadowColor = '#ffffff'; 
+        
+        canvasCtx.beginPath();
+        const sliceWidth = canvas.width * 1.0 / bufferLength;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            let v = dataArray[i] / 128.0;
+            let y = v * canvas.height / 2;
+            if (i === 0) { canvasCtx.moveTo(x, y); } else { canvasCtx.lineTo(x, y); }
+            x += sliceWidth;
+        }
+        canvasCtx.lineTo(canvas.width, canvas.height / 2);
+        canvasCtx.stroke();
+        canvasCtx.shadowBlur = 0;
+    }
+
     function updateVolume(trackNum, value) {
+        if (!audioCtx) initAudio();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         document.getElementById(`v${trackNum}-num`).innerText = value + '%';
-        const audio = document.getElementById(`audio${trackNum}`);
-        if (value > 0) {
-            if (audio.paused) {
-                audio.play().catch(function(e) { console.log("互动解锁音频通道"); });
-            }
-            audio.volume = value / 100;
-        } else {
-            audio.volume = 0;
-            audio.pause();
+        if (gains[trackNum]) {
+            gains[trackNum].gain.setTargetAtTime((value / 100) * 0.12, audioCtx.currentTime, 0.05);
         }
     }
 
     function matchAIStatus() {
+        if (!audioCtx) initAudio();
         const text = document.getElementById('ai-text').value;
-        if (!text) { alert("你还没写下内耗遗言呢~"); return; }
+        if (!text) return;
 
-        for(let i=1; i<=10; i++) { 
-            document.getElementById(`vol${i}`).value = 0; 
-            updateVolume(i, 0);
-        }
+        mockDatabase.unshift(`刚刚捕获的频段：${text}`);
+        startSocialSquare();
 
-        if (text.match(/(急|交图|方案|完蛋|崩溃|赶图|作业|ddl|材料|评图|退回|压力|累|大)/i)) {
-            updateVolume(2, 85); document.getElementById('vol2').value = 85;
-            updateVolume(4, 90); document.getElementById('vol4').value = 90;
-            updateVolume(7, 95); document.getElementById('vol7').value = 95;
-        } else if (text.match(/(夏天|假|放假|毕业|校园|草坪|阳光|风|摸鱼)/)) {
-            updateVolume(1, 75); document.getElementById('vol1').value = 75;
-            updateVolume(8, 90); document.getElementById('vol8').value = 90;
-            updateVolume(10, 40); document.getElementById('vol10').value = 40;
-        } else if (text.match(/(孤独|深夜|冷|哭|难过|emo|寂寞|悲)/)) {
-            updateVolume(5, 80); document.getElementById('vol5').value = 80;
-            updateVolume(6, 60); document.getElementById('vol6').value = 60;
-            updateVolume(9, 85); document.getElementById('vol9').value = 85;
-        } else if (text.match(/(咖啡|工作|实习|大厂|开会|精致|星巴克)/)) {
-            updateVolume(1, 60); document.getElementById('vol1').value = 60;
-            updateVolume(2, 40); document.getElementById('vol2').value = 40;
-            updateVolume(3, 85); document.getElementById('vol3').value = 85;
+        for(let i=1; i<=4; i++) { document.getElementById(`vol${i}`).value = 0; updateVolume(i, 0); }
+
+        if (text.match(/(急|方案|交图|完蛋|崩溃|压力|大|累|ddl|作业)/i)) {
+            document.getElementById('vol1').value = 75; updateVolume(1, 75);
+            document.getElementById('vol2').value = 80; updateVolume(2, 80);
         } else {
-            updateVolume(5, 70); document.getElementById('vol5').value = 70;
-            updateVolume(6, 80); document.getElementById('vol6').value = 80;
+            document.getElementById('vol3').value = 85; updateVolume(3, 85);
+            document.getElementById('vol4').value = 60; updateVolume(4, 60);
         }
         generateDiagnosis();
     }
 
     function generateDiagnosis() {
-        const v = [];
-        for(let i=1; i<=10; i++) v[i] = parseInt(document.getElementById(`vol${i}`).value);
-
         const card = document.getElementById('status-card');
         const title = document.getElementById('status-title');
         const desc = document.getElementById('status-desc');
-        const tagsBox = document.getElementById('status-tags');
-
-        card.style.display = 'block'; tagsBox.innerHTML = '';
-        let max = Math.max(...v.slice(1));
-        if (max === 0) { title.innerText = "🍃 颅内绝对真空"; desc.innerText = "四周寂静无声。"; return; }
-
-        const names = ["", "BGM", "键盘", "咖啡厅", "钟声", "大雨", "翻书", "草图", "蝉鸣", "柴火", "车载LoFi"];
-        for(let i=1; i<=10; i++) { if (v[i] > 0) tagsBox.innerHTML += `<span class="tag">#${names[i]} ${v[i]}%</span>`; }
-
-        let maxIdx = v.indexOf(max);
-        if (maxIdx === 7 || maxIdx === 2) {
-            title.innerText = "📐 方案大改 · 键盘火星子爆燃状态";
-            desc.innerText = "铅笔的疯狂沙沙声和机械键盘击键声已经把空气点燃了。你处于极高强度的脑力输出状态，你的方案可能正在经历大改，挺住！";
-        } else if (maxIdx === 8 || maxIdx === 1) {
-            title.innerText = "🌅 蝉鸣落日 · 灵魂已提前放假";
-            desc.innerText = "疏离的旋律与夏夜蝉鸣。你的肉体虽然还坐在电脑前，但灵魂已经收拾好行李放假了。";
-        } else if (maxIdx === 9 || maxIdx === 5) {
-            title.innerText = "🔥 围炉夜织 · 极度内耗自愈机制";
-            desc.innerText = "柴火噼啪，大雨倾盆。现在的你有些疲惫和emo，正在对自己进行精神修复。";
-        } else if (maxIdx === 3 || maxIdx === 10) {
-            title.innerText = "🪐 赛博中产 · 气氛组首席打工人";
-            desc.innerText = "经典咖啡厅和微弱的LoFi频率组合，哪怕人快没了，这种精致感也是你最后固守的倔强。";
+        card.style.display = 'block';
+        
+        const v1 = parseInt(document.getElementById('vol1').value);
+        if(v1 > 50) {
+            title.innerText = "// 状态解析：高频内耗共振";
+            desc.innerText = "白描细线产生的剧烈离散波形，精确勾勒了此刻心智模型的过载。算法正在释放物理低噪对冲内建压力，外界已闭环，请保持静息。";
         } else {
-            title.innerText = "🧘 寂静深邃 · 沉浸式心智运转";
-            desc.innerText = "翻书声与钟声交织，外界的嘈杂被你完美过滤。";
+            title.innerText = "// 状态解析：极简秩序心流";
+            desc.innerText = "正弦波轨道恢复绝对相干。你已经成功通过数字滤镜隔绝外部噪音，心智空间回归完全的自主和极简秩序。";
         }
+    }
+
+    let currentCommentIdx = 0;
+    function startSocialSquare() {
+        const pool = document.getElementById('comment-pool');
+        pool.innerHTML = '';
+        
+        let dataIdx = currentCommentIdx % mockDatabase.length;
+        let item = document.createElement('div');
+        item.className = 'comment-item';
+        item.innerText = mockDatabase[dataIdx];
+        pool.appendChild(item);
+        
+        currentCommentIdx++;
+    }
+
+    window.onload = function() {
+        canvas = document.getElementById('visualizer');
+        canvasCtx = canvas.getContext('2d');
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 100;
+        
+        startSocialSquare();
+        setInterval(startSocialSquare, 6000);
     }
 </script>
 </body>
