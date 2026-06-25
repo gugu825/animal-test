@@ -10,10 +10,9 @@
         body, html { 
             height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; 
             background: #000000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
-            color: #ffffff; overflow: hidden; position: relative;
+            color: #ffffff; overflow-y: auto; position: relative;
         }
 
-        /* 顶级深邃暗夜流光背景（若隐若现的呼吸环境光） */
         body::before {
             content: ""; position: absolute; width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0) 70%);
@@ -22,72 +21,58 @@
         }
         @keyframes bgPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        /* 容器去实体化：像悬浮在黑暗中的光影艺术品 */
         .container { 
-            width: 90%; max-width: 440px; 
-            background: rgba(10, 10, 10, 0.4);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            width: 90%; max-width: 460px; margin: 40px 0;
+            background: rgba(10, 10, 10, 0.4); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             padding: 40px 35px; border-radius: 32px; 
             box-shadow: 0 50px 120px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.03); 
             text-align: center; border: 1px solid rgba(255, 255, 255, 0.02); z-index: 10; position: relative;
         }
 
-        /* 瑞士现代主义排版风格 */
-        .header-zone { margin-bottom: 35px; }
+        .header-zone { margin-bottom: 30px; }
         h1 { font-size: 15px; font-weight: 400; margin: 0 0 8px 0; color: rgba(255,255,255,0.9); letter-spacing: 6px; text-transform: uppercase; }
         .subtitle { color: rgba(255,255,255,0.2); font-size: 8px; font-weight: 400; letter-spacing: 3px; transform: scale(0.9); }
         
-        /* 纯黑无边框全景示波器屏 */
         .visualizer-zone {
             width: 100%; height: 100px; background: transparent;
-            margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;
+            margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;
         }
-        canvas { width: 100%; height: 100%; display: block; }
+        canvas#visualizer { width: 100%; height: 100%; display: block; }
 
-        /* 纯粹线条感输入区 */
-        .ai-input-zone { margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .ai-input-zone { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
         .ai-input-zone textarea { 
-            width: 100%; height: 35px; background: transparent; border: none; 
+            width: 100%; height: 45px; background: transparent; border: none; 
             color: #ffffff; padding: 0; font-size: 12px; resize: none; outline: none;
             font-family: inherit; line-height: 1.6; text-align: center;
         }
         .ai-input-zone textarea::placeholder { color: rgba(255,255,255,0.15); }
         
-        /* 留白先锋感按钮 */
         .ai-btn { 
-            margin-top: 15px; padding: 8px 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; 
+            margin-top: 10px; padding: 8px 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; 
             background: transparent; color: rgba(255,255,255,0.7); font-weight: 400; cursor: pointer; font-size: 10px; letter-spacing: 2px;
         }
         .ai-btn:hover { background: #ffffff; color: #000000; border-color: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
 
-        /* 高级定制型音轨排版 */
-        .mixer-grid { display: grid; grid-template-columns: 1fr; gap: 20px; text-align: left; margin-bottom: 35px; }
-        .track { 
-            background: transparent; padding: 0 0 10px 0; border-bottom: 1px solid rgba(255,255,255,0.02);
-        }
+        .mixer-grid { display: grid; grid-template-columns: 1fr; gap: 16px; text-align: left; margin-bottom: 35px; }
+        .track { background: transparent; padding: 0 0 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
         .track:hover { border-color: rgba(255,255,255,0.1); }
-        .track-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 12px; color: rgba(255,255,255,0.3); font-weight: 300; letter-spacing: 1px; }
+        .track-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 8px; color: rgba(255,255,255,0.3); font-weight: 300; letter-spacing: 1px; }
         .track-percent { color: rgba(255,255,255,0.8); font-variant-numeric: tabular-nums; font-weight: 400; }
         
-        /* 极致纤细的无感轨道 */
         .slider-wrapper { position: relative; display: flex; align-items: center; }
         input[type=range] { width: 100%; -webkit-appearance: none; background: rgba(255,255,255,0.05); height: 1px; outline: none; }
         input[type=range]::-webkit-slider-thumb { 
             -webkit-appearance: none; width: 6px; height: 6px; border-radius: 50%; 
-            background: #ffffff; cursor: pointer;
-            box-shadow: 0 0 10px rgba(255,255,255,0.8); transition: transform 0.2s;
+            background: #ffffff; cursor: pointer; box-shadow: 0 0 10px rgba(255,255,255,0.8);
         }
-        input[type=range]::-webkit-slider-thumb:hover { transform: scale(2); }
 
-        /* 电影谢幕感的静谧匿名流 */
         .square-zone { width: 100%; text-align: center; margin-bottom: 35px; }
         .square-title { font-size: 8px; color: rgba(255,255,255,0.15); font-weight: 400; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
         .comment-pool { height: 20px; overflow: hidden; position: relative; }
         .comment-item { 
-            font-size: 11px; color: rgba(255,255,255,0.3); width: 100%; font-weight: 300; letter-spacing: 0.5px;
+            font-size: 11px; color: rgba(255,255,255,0.3); width: 100%; font-weight: 300;
             animation: slideUpFade 6s infinite ease-in-out; position: absolute; opacity: 0;
         }
-        
         @keyframes slideUpFade {
             0% { transform: translateY(15px); opacity: 0; filter: blur(4px); }
             15% { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -95,56 +80,72 @@
             100% { transform: translateY(-15px); opacity: 0; filter: blur(4px); }
         }
 
-        /* 底部半透明艺术签章式按钮 */
         .gen-btn {
             width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.05); border-radius: 0; 
             background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 300; cursor: pointer; letter-spacing: 3px;
         }
         .gen-btn:hover { background: transparent; color: #ffffff; border-color: rgba(255,255,255,0.4); }
         
-        /* 诗意化的诊断卡片 */
-        .card { 
-            margin-top: 25px; padding: 20px 0 0 0; text-align: left; border-top: 1px dashed rgba(255,255,255,0.08);
-            display: none; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        .meme-card-zone { 
+            margin-top: 30px; padding-top: 25px; border-top: 1px dashed rgba(255,255,255,0.08);
+            display: none; text-align: center; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .card h3 { margin: 0; color: #ffffff; font-size: 12px; font-weight: 400; letter-spacing: 2px; }
-        .card p { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.8; margin: 10px 0 0 0; font-weight: 300; }
+        .meme-instruction { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 1px; margin-top: 12px; }
+        #generated-meme-img { 
+            width: 100%; max-width: 320px; border-radius: 16px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header-zone">
-        <h1>今日精神状态 · 算法装置</h1>
-        <div class="subtitle">WEB AUDIO WAVEFORM VISUALIZATION & TIMELESS RESONANCE BLOCK</div>
+        <h1>今日精神状态 · 声音艺术装置</h1>
+        <div class="subtitle">NLP SENTIMENT DSP COMPASS & QUANTIZED MEME</div>
     </div>
 
-    <!-- 视觉震撼重构：高冷冷白发光线，宛如艺术画廊顶部的冷光艺术线条 -->
     <div class="visualizer-zone">
         <canvas id="visualizer"></canvas>
     </div>
 
     <div class="ai-input-zone">
         <textarea id="ai-text" placeholder="将此时此刻的心绪，汇入永恒的声音波动。"></textarea>
-        <button class="ai-btn" onclick="matchAIStatus()">注入频率</button>
+        <button class="ai-btn" onclick="matchAIStatus()">注入频率 & 语义解析</button>
     </div>
 
     <div class="mixer-grid">
         <div class="track">
-            <div class="track-label"><span>Mute Noise / 深度白噪音</span><span id="v1-num" class="track-percent">0%</span></div>
+            <div class="track-label"><span>01 / White Noise / 宇宙纯白噪</span><span id="v1-num" class="track-percent">0%</span></div>
             <div class="slider-wrapper"><input type="range" id="vol1" min="0" max="100" value="0" oninput="updateVolume(1, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>Sub Drone / 低频低鸣</span><span id="v2-num" class="track-percent">0%</span></div>
+            <div class="track-label"><span>02 / Cyber Rain / 虚拟雨季</span><span id="v5-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol5" min="0" max="100" value="0" oninput="updateVolume(5, this.value)"></div>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>03 / Cosmic Bonfire / 粒子篝火</span><span id="v6-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol6" min="0" max="100" value="0" oninput="updateVolume(6, this.value)"></div>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>04 / Valley Wind / 冥想山谷气流</span><span id="v7-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol7" min="0" max="100" value="0" oninput="updateVolume(7, this.value)"></div>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>05 / Sub Drone / 深海低频轰鸣</span><span id="v2-num" class="track-percent">0%</span></div>
             <div class="slider-wrapper"><input type="range" id="vol2" min="0" max="100" value="0" oninput="updateVolume(2, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>Sine Core / 纯净正弦波</span><span id="v3-num" class="track-percent">0%</span></div>
+            <div class="track-label"><span>06 / Sine Core / 纯净专注正弦波</span><span id="v3-num" class="track-percent">0%</span></div>
             <div class="slider-wrapper"><input type="range" id="vol3" min="0" max="100" value="0" oninput="updateVolume(3, this.value)"></div>
         </div>
         <div class="track">
-            <div class="track-label"><span>Alpha Wave / 阿尔法波</span><span id="v4-num" class="track-percent">0%</span></div>
+            <div class="track-label"><span>07 / Singing Bowl / 528Hz 奇迹颂钵</span><span id="v8-num" class="track-percent">0%</span></div>
+            <div class="slider-wrapper"><input type="range" id="vol8" min="0" max="100" value="0" oninput="updateVolume(8, this.value)"></div>
+        </div>
+        <div class="track">
+            <div class="track-label"><span>08 / Alpha Wave / 催眠深度阿尔法波</span><span id="v4-num" class="track-percent">0%</span></div>
             <div class="slider-wrapper"><input type="range" id="vol4" min="0" max="100" value="0" oninput="updateVolume(4, this.value)"></div>
         </div>
     </div>
@@ -154,17 +155,22 @@
         <div class="comment-pool" id="comment-pool"></div>
     </div>
 
-    <button class="gen-btn" onclick="generateDiagnosis()">生成状态图谱</button>
+    <button class="gen-btn" onclick="generateMemeCard()">生成赛博精神卡片 (表情包)</button>
 
-    <div class="card" id="status-card">
-        <h3 id="status-title"></h3>
-        <p id="status-desc"></p>
+    <div class="meme-card-zone" id="meme-zone">
+        <img id="generated-meme-img" src="" alt="赛博精神状态表情包">
+        <div class="meme-instruction">💡 提示：长按图片即可直接保存至手机相册</div>
     </div>
 </div>
 
+<canvas id="memeCanvas" width="600" height="600" style="display:none;"></canvas>
+
 <script>
-    let audioCtx = null; let nodes = {1:null,2:null,3:null,4:null}; let gains = {1:null,2:null,3:null,4:null};
-    let analyser = null; let canvas, canvasCtx;
+    let audioCtx = null; let nodes = {}; let gains = {}; let analyser = null; let canvas, canvasCtx;
+    
+    // 全局内核：记录本地语义引擎解析出的双轴情绪电荷
+    let currentAnxietyScore = 0; // 焦虑唤醒度 (0 - 100)
+    let currentPeaceScore = 50;  // 平静效价度 (0 - 100)
 
     const mockDatabase = [
         "来自午夜的匿名波段：机械键盘快按碎了，方案依然没过。",
@@ -173,71 +179,62 @@
         "深海节点的低吟：在低频洪流中，暂时交出抵抗权。"
     ];
 
+    // 本地嵌入式语义高频词典 (NLP 引擎核心)
+    const nlpDictionary = {
+        anxiety: ['急', '方案', '交图', '完蛋', '崩溃', '压力', '累', 'ddl', '作业', '死', '哭', '改', '画图', '加班', '痛苦', '救命', '难受', '烦'],
+        peace: ['爽', '平静', '睡觉', '躺平', '治愈', '开心', '舒服', '休息', '放空', '优雅', '听歌', '快乐', '猫', '风', '安静', '惬意', '顺利']
+    };
+
     function initAudio() {
         if (audioCtx) return;
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioCtx.createAnalyser(); analyser.fftSize = 512; analyser.connect(audioCtx.destination);
+        let sampleRate = audioCtx.sampleRate, bufferSize = 2 * sampleRate;
 
-        let bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) { output[i] = Math.random() * 2 - 1; }
-        let whiteNoise = audioCtx.createBufferSource(); whiteNoise.buffer = noiseBuffer; whiteNoise.loop = true;
-        gains[1] = audioCtx.createGain(); gains[1].gain.value = 0; whiteNoise.connect(gains[1]); gains[1].connect(analyser); whiteNoise.start(); nodes[1] = whiteNoise;
+        let b1 = audioCtx.createBuffer(1, bufferSize, sampleRate), o1 = b1.getChannelData(0); for (let i = 0; i < bufferSize; i++) { o1[i] = Math.random() * 2 - 1; }
+        let s1 = audioCtx.createBufferSource(); s1.buffer = b1; s1.loop = true; gains[1] = audioCtx.createGain(); gains[1].gain.value = 0; s1.connect(gains[1]); gains[1].connect(analyser); s1.start(); nodes[1] = s1;
 
-        let osc2 = audioCtx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 55;
-        let filter2 = audioCtx.createBiquadFilter(); filter2.type = 'lowpass'; filter2.frequency.value = 100;
-        gains[2] = audioCtx.createGain(); gains[2].gain.value = 0; osc2.connect(filter2); filter2.connect(gains[2]); gains[2].connect(analyser); osc2.start(); nodes[2] = osc2;
+        let s2 = audioCtx.createOscillator(); s2.type = 'sawtooth'; s2.frequency.value = 52;
+        let f2 = audioCtx.createBiquadFilter(); f2.type = 'lowpass'; f2.frequency.value = 90; gains[2] = audioCtx.createGain(); gains[2].gain.value = 0; s2.connect(f2); f2.connect(gains[2]); gains[2].connect(analyser); s2.start(); nodes[2] = s2;
 
-        let osc3 = audioCtx.createOscillator(); osc3.type = 'sine'; osc3.frequency.value = 360;
-        gains[3] = audioCtx.createGain(); gains[3].gain.value = 0; osc3.connect(gains[3]); gains[3].connect(analyser); osc3.start(); nodes[3] = osc3;
+        let s3 = audioCtx.createOscillator(); s3.type = 'sine'; s3.frequency.value = 340; gains[3] = audioCtx.createGain(); gains[3].gain.value = 0; s3.connect(gains[3]); gains[3].connect(analyser); s3.start(); nodes[3] = s3;
 
-        let osc4 = audioCtx.createOscillator(); osc4.type = 'triangle'; osc4.frequency.value = 70;
-        let filter4 = audioCtx.createBiquadFilter(); filter4.type = 'lowpass'; filter4.frequency.value = 85;
-        gains[4] = audioCtx.createGain(); gains[4].gain.value = 0; osc4.connect(filter4); filter4.connect(gains[4]); gains[4].connect(analyser); osc4.start(); nodes[4] = osc4;
+        let s4 = audioCtx.createOscillator(); s4.type = 'triangle'; s4.frequency.value = 65;
+        let f4 = audioCtx.createBiquadFilter(); f4.type = 'lowpass'; f4.frequency.value = 80; gains[4] = audioCtx.createGain(); gains[4].gain.value = 0; s4.connect(f4); f4.connect(gains[4]); gains[4].connect(analyser); s4.start(); nodes[4] = s4;
+
+        let b5 = audioCtx.createBuffer(1, bufferSize, sampleRate), o5 = b5.getChannelData(0); let b0=0, b1_p=0, b2=0, b3=0, b4=0, b5_p=0, b6=0;
+        for (let i = 0; i < bufferSize; i++) { let white = Math.random() * 2 - 1; b0 = 0.99886 * b0 + white * 0.0555179; b1_p = 0.99332 * b1_p + white * 0.0750759; b2 = 0.96900 * b2 + white * 0.1538520; b3 = 0.86650 * b3 + white * 0.3104856; b4 = 0.55000 * b4 + white * 0.5329522; b5_p = -0.7616 * b5_p - white * 0.0168980; o5[i] = b0 + b1_p + b2 + b3 + b4 + b5_p + b6 + white * 0.5362; o5[i] *= 0.11; b6 = white * 0.115926; }
+        let s5 = audioCtx.createBufferSource(); s5.buffer = b5; s5.loop = true; gains[5] = audioCtx.createGain(); gains[5].gain.value = 0; s5.connect(gains[5]); gains[5].connect(analyser); s5.start(); nodes[5] = s5;
+
+        let scriptNode = audioCtx.createScriptProcessor(4096, 0, 1); scriptNode.onaudioprocess = function(e) { let output = e.outputBuffer.getChannelData(0); for (let i = 0; i < e.outputBuffer.length; i++) { output[i] = (Math.random() < 0.0008) ? (Math.random() * 2 - 1) * 0.6 : 0; } };
+        let filter6 = audioCtx.createBiquadFilter(); filter6.type = 'bandpass'; filter6.frequency.value = 2500; gains[6] = audioCtx.createGain(); gains[6].gain.value = 0; scriptNode.connect(filter6); filter6.connect(gains[6]); gains[6].connect(analyser); nodes[6] = scriptNode;
+
+        let b7 = audioCtx.createBuffer(1, bufferSize, sampleRate), o7 = b7.getChannelData(0); for (let i = 0; i < bufferSize; i++) { o7[i] = Math.random() * 2 - 1; }
+        let s7 = audioCtx.createBufferSource(); s7.buffer = b7; s7.loop = true; let filter7 = audioCtx.createBiquadFilter(); filter7.type = 'lowpass'; filter7.frequency.value = 180; gains[7] = audioCtx.createGain(); gains[7].gain.value = 0; s7.connect(filter7); filter7.connect(gains[7]); gains[7].connect(analyser); s7.start(); nodes[7] = s7;
+
+        let s8 = audioCtx.createOscillator(); s8.type = 'sine'; s8.frequency.value = 528; gains[8] = audioCtx.createGain(); gains[8].gain.value = 0; s8.connect(gains[8]); gains[8].connect(analyser); s8.start(); nodes[8] = s8;
 
         drawVisualizer();
     }
 
-    // 极致艺术画布算法：清空背景、极致丝滑的发光纤细白线
     function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
-        if (!analyser) return;
-
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        analyser.getByteTimeDomainData(dataArray);
-
-        // 清空画布，保持绝对干净的无边框通透质感
-        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        canvasCtx.lineWidth = 1;
-        canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.8)'; // 高级冷白线
-        canvasCtx.shadowBlur = 4;
-        canvasCtx.shadowColor = '#ffffff'; 
-        
-        canvasCtx.beginPath();
-        const sliceWidth = canvas.width * 1.0 / bufferLength;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            let v = dataArray[i] / 128.0;
-            let y = v * canvas.height / 2;
-            if (i === 0) { canvasCtx.moveTo(x, y); } else { canvasCtx.lineTo(x, y); }
-            x += sliceWidth;
-        }
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
-        canvasCtx.stroke();
-        canvasCtx.shadowBlur = 0;
+        requestAnimationFrame(drawVisualizer); if (!analyser) return;
+        const bufferLength = analyser.frequencyBinCount; const dataArray = new Uint8Array(bufferLength);
+        analyser.getByteTimeDomainData(dataArray); canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+        canvasCtx.lineWidth = 1; canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.85)'; canvasCtx.shadowBlur = 4; canvasCtx.shadowColor = '#ffffff'; canvasCtx.beginPath();
+        const sliceWidth = canvas.width * 1.0 / bufferLength; let x = 0;
+        for (let i = 0; i < bufferLength; i++) { let v = dataArray[i] / 128.0; let y = v * canvas.height / 2; if (i === 0) { canvasCtx.moveTo(x, y); } else { canvasCtx.lineTo(x, y); } x += sliceWidth; }
+        canvasCtx.lineTo(canvas.width, canvas.height / 2); canvasCtx.stroke(); canvasCtx.shadowBlur = 0;
     }
 
     function updateVolume(trackNum, value) {
         if (!audioCtx) initAudio();
         if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         document.getElementById(`v${trackNum}-num`).innerText = value + '%';
-        if (gains[trackNum]) {
-            gains[trackNum].gain.setTargetAtTime((value / 100) * 0.12, audioCtx.currentTime, 0.05);
-        }
+        if (gains[trackNum]) { gains[trackNum].gain.setTargetAtTime((value / 100) * 0.12, audioCtx.currentTime, 0.05); }
     }
 
+    // 智能 NLP 算法：线性测算文本的情感权重，动态分流音频输出
     function matchAIStatus() {
         if (!audioCtx) initAudio();
         const text = document.getElementById('ai-text').value;
@@ -246,57 +243,88 @@
         mockDatabase.unshift(`刚刚捕获的频段：${text}`);
         startSocialSquare();
 
-        for(let i=1; i<=4; i++) { document.getElementById(`vol${i}`).value = 0; updateVolume(i, 0); }
+        // 语义打分引擎核心代码
+        let anxietyHits = 0;
+        let peaceHits = 0;
 
-        if (text.match(/(急|方案|交图|完蛋|崩溃|压力|大|累|ddl|作业)/i)) {
-            document.getElementById('vol1').value = 75; updateVolume(1, 75);
-            document.getElementById('vol2').value = 80; updateVolume(2, 80);
+        nlpDictionary.anxiety.forEach(word => { if(text.includes(word)) anxietyHits++; });
+        nlpDictionary.peace.forEach(word => { if(text.includes(word)) peaceHits++; });
+
+        // 计算双轴线性连续模型得分 (Valence-Arousal Mapping)
+        if (anxietyHits === 0 && peaceHits === 0) {
+            currentAnxietyScore = 30; // 默认中性略带微紧绷
+            currentPeaceScore = 40;
         } else {
-            document.getElementById('vol3').value = 85; updateVolume(3, 85);
-            document.getElementById('vol4').value = 60; updateVolume(4, 60);
+            let total = anxietyHits + peaceHits;
+            currentAnxietyScore = Math.min(100, Math.round((anxietyHits / total) * 90 + Math.random() * 10));
+            currentPeaceScore = Math.min(100, Math.round((peaceHits / total) * 90 + Math.random() * 10));
         }
-        generateDiagnosis();
+
+        // 根据得分，算法【智能线性控制】八个音轨的音量
+        let targetVol1 = Math.round(currentAnxietyScore * 0.4); // 宇宙白噪
+        let targetVol5 = Math.round(currentAnxietyScore * 0.9); // 虚拟雨季
+        let targetVol6 = Math.round(currentAnxietyScore * 0.7); // 粒子篝火
+        let targetVol2 = Math.round(currentAnxietyScore * 0.8); // 深海低鸣
+
+        let targetVol7 = Math.round(currentPeaceScore * 0.8);  // 山谷气流
+        let targetVol3 = Math.round(currentPeaceScore * 0.5);  // 正弦核心
+        let targetVol8 = Math.round(currentPeaceScore * 0.9);  // 528Hz颂钵
+        let targetVol4 = Math.round(currentPeaceScore * 0.7);  // 阿尔法波
+
+        // 丝滑地将计算结果映射至 UI 轨道上
+        document.getElementById('vol1').value = targetVol1; updateVolume(1, targetVol1);
+        document.getElementById('vol5').value = targetVol5; updateVolume(5, targetVol5);
+        document.getElementById('vol6').value = targetVol6; updateVolume(6, targetVol6);
+        document.getElementById('vol2').value = targetVol2; updateVolume(2, targetVol2);
+
+        document.getElementById('vol7').value = targetVol7; updateVolume(7, targetVol7);
+        document.getElementById('vol3').value = targetVol3; updateVolume(3, targetVol3);
+        document.getElementById('vol8').value = targetVol8; updateVolume(8, targetVol8);
+        document.getElementById('vol4').value = targetVol4; updateVolume(4, targetVol4);
+
+        generateMemeCard();
     }
 
-    function generateDiagnosis() {
-        const card = document.getElementById('status-card');
-        const title = document.getElementById('status-title');
-        const desc = document.getElementById('status-desc');
-        card.style.display = 'block';
+    function generateMemeCard() {
+        const text = document.getElementById('ai-text').value || "未检测到外界显性心绪流";
+        const mCanvas = document.getElementById('memeCanvas');
+        const ctx = mCanvas.getContext('2d');
         
-        const v1 = parseInt(document.getElementById('vol1').value);
-        if(v1 > 50) {
-            title.innerText = "// 状态解析：高频内耗共振";
-            desc.innerText = "白描细线产生的剧烈离散波形，精确勾勒了此刻心智模型的过载。算法正在释放物理低噪对冲内建压力，外界已闭环，请保持静息。";
-        } else {
-            title.innerText = "// 状态解析：极简秩序心流";
-            desc.innerText = "正弦波轨道恢复绝对相干。你已经成功通过数字滤镜隔绝外部噪音，心智空间回归完全的自主和极简秩序。";
+        ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0, 0, 600, 600);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.strokeRect(30, 30, 540, 540);
+        
+        ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '11px sans-serif'; ctx.letterSpacing = '4px';
+        ctx.fillText("NLP SENTIMENT DSP COMPASS ENGINE", 50, 70);
+        
+        // 智能评语逻辑：根据 VA 坐标复合判定多达 4 大类形态
+        let statusTitle = "EMOTION MATRIX LOADED";
+        let statusDesc = "中性均衡稳态波段";
+        
+        if(currentAnxietyScore >= 60 && currentPeaceScore < 40) {
+            statusTitle = "STATE: HIGH-AROUSAL CRITICAL";
+            statusDesc = `过载内耗波段 (焦躁指数: ${currentAnxietyScore}%)`;
+        } else if(currentPeaceScore >= 60 && currentAnxietyScore < 40) {
+            statusTitle = "STATE: QUANTUM COHERENCE";
+            statusDesc = `绝对相干心流 (静谧指数: ${currentPeaceScore}%)`;
+        } else if(currentAnxietyScore >= 50 && currentPeaceScore >= 50) {
+            statusTitle = "STATE: COMPLEX RESONANCE";
+            statusDesc = "处于既紧绷又试图自愈的复合叠加态";
         }
-    }
 
-    let currentCommentIdx = 0;
-    function startSocialSquare() {
-        const pool = document.getElementById('comment-pool');
-        pool.innerHTML = '';
+        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 22px sans-serif'; ctx.letterSpacing = '1px';
+        ctx.fillText(statusTitle, 50, 110);
         
-        let dataIdx = currentCommentIdx % mockDatabase.length;
-        let item = document.createElement('div');
-        item.className = 'comment-item';
-        item.innerText = mockDatabase[dataIdx];
-        pool.appendChild(item);
+        ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '14px sans-serif';
+        ctx.fillText(`// 情绪特征矩阵：${statusDesc}`, 50, 140);
         
-        currentCommentIdx++;
-    }
-
-    window.onload = function() {
-        canvas = document.getElementById('visualizer');
-        canvasCtx = canvas.getContext('2d');
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = 100;
+        ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 2; ctx.shadowBlur = 6; ctx.shadowColor = '#ffffff';
+        ctx.beginPath();
         
-        startSocialSquare();
-        setInterval(startSocialSquare, 6000);
-    }
-</script>
-</body>
-</html>
+        // 根据 NLP 解析出的分数，算法【线性绘制】几何五官神态的弧度或斜率
+        if (currentAnxietyScore >= 60 && currentPeaceScore < 40) {
+            // 焦虑爆肝：经典不对称崩坏 X 弧线
+            ctx.moveTo(250, 240); ctx.lineTo(270, 260); ctx.moveTo(270, 240); ctx.lineTo(250, 260);
+            ctx.moveTo(330, 240); ctx.lineTo(350, 260); ctx.moveTo(350, 240); ctx.lineTo(330, 260);
+            // 嘴角剧烈颤抖不规则线
+            ctx.moveTo(240, 330); ctx.lineTo(270, 310); ctx.lineTo(300, 340); ctx.lineTo(330, 315); ctx.lineTo(360, 330);
+        } else if(currentPeace
